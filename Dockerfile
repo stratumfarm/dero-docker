@@ -12,7 +12,7 @@ RUN tar xvzf dero_linux_amd64.tar.gz
 WORKDIR /app/dero_linux_amd64
 
 FROM gcr.io/distroless/base-debian11
-COPY --from=build /app/dero_linux_amd64/dero-wallet-cli-linux-amd64 /dero-wallet
-CMD ["/dero-wallet"]
+COPY --from=build /app/dero_linux_amd64/derod-linux-amd64 /derod
+CMD ["/derod"]
 
-EXPOSE 20209
+EXPOSE 10100 10102 10103

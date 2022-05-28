@@ -7,9 +7,12 @@ services:
     restart: unless-stopped
     volumes:
       - ./mainnet:/mainnet
-      - ./pool.db:/pool.db
+      - ./wallet.db:/wallet.db
     ports:
-      - 10.200.10.200:20209:20209
+      - 127.0.0.1:10100:10100
+      - 11011:11011/udp
+      - 127.0.0.1:10102:10102
+      - 127.0.0.1:10103:10103
     networks:
       default:
-    command: /dero-wallet --wallet-file=pool.db --unlocked --daemon-address=10.200.10.200:40402 --rpc-server --rpc-bind=10.200.10.200:20209
+    command: /derod --p2p-bind=0.0.0.0:11011 --integrator-address=dero1qynww4vr7jtw25vqs6mhn7cgevffla7gz7pk3fd6uwnksateqwmyxqqmwuqny
