@@ -1,2 +1,4 @@
 mainnet
 wallet.db
+pool.db
+fee.db
