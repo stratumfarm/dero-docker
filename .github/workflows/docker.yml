@@ -5,6 +5,9 @@ on:
     branches:
       - 'main'
 
+env: 
+  DERO_VERSION: Release78
+
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -26,9 +29,46 @@ jobs:
           username: ${{ secrets.HARBOR_USER }}
           password: ${{ secrets.HARBOR_PASSWORD }}
       -
-        name: Build and push
+        name: derod meta
+        id: derod-meta
+        uses: docker/metadata-action@v3
+        with:
+          images: |
+            ${{ secrets.HARBOR_URL }}/stratumfarm/derod
+          tags: |
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+      -
+        name: Build and push derod
         uses: docker/build-push-action@v3
         with:
+          file: Dockerfile
           context: .
           push: true
-          tags: ${{ secrets.HARBOR_URL }}/stratumfarm/derod:latest
+          tags: ${{ steps.derod-meta.outputs.tags }}
+          labels: ${{ steps.derod-meta.outputs.labels }}
+          build-args: |
+            DERO_VERSION=${{ env.DERO_VERSION }}
+      -
+        name: dero-wallet meta
+        id: dero-wallet-meta
+        uses: docker/metadata-action@v3
+        with:
+          images: |
+            ${{ secrets.HARBOR_URL }}/stratumfarm/dero-wallet
+          tags: |
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+      - 
+        name: Build and push dero-wallet
+        uses: docker/build-push-action@v3
+        with:
+          file: Dockerfile
+          context: .
+          push: true
+          tags: ${{ steps.dero-wallet-meta.outputs.tags }}
+          labels: ${{ steps.dero-wallet-meta.outputs.labels }}
+          build-args: |
+            DERO_VERSION=${{ env.DERO_VERSION }}
