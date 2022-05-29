@@ -67,7 +67,7 @@ jobs:
         name: Build and push dero-wallet
         uses: docker/build-push-action@v3
         with:
-          file: Dockerfile
+          file: Dockerfile.wallet
           context: .
           push: true
           tags: ${{ steps.dero-wallet-meta.outputs.tags }}
