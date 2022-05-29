@@ -11,8 +11,10 @@ RUN curl -LJO https://github.com/deroproject/derohe/releases/download/${DERO_VER
 RUN tar xvzf dero_linux_amd64.tar.gz
 WORKDIR /app/dero_linux_amd64
 
-FROM gcr.io/distroless/base-debian11
-COPY --from=build /app/dero_linux_amd64/dero-wallet-cli-linux-amd64 /dero-wallet
-CMD ["/dero"]
+FROM alpine:latest
+COPY --from=build /app/dero_linux_amd64/derod-linux-amd64 /derod
+RUN apk --no-cache update &&\ 
+    apk --no-cache add screen
+CMD ["screen", "-S", "dero", "/derod"]
 
 EXPOSE 10100 10102 10103

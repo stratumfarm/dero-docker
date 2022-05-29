@@ -2,7 +2,10 @@
 version: "3.8"
 services:
   derod:
-    build: .
+    build:
+      context: .
+      args:
+        DERO_VERSION: Release78
     hostname: derod
     restart: unless-stopped
     volumes:
@@ -15,4 +18,26 @@ services:
       - 127.0.0.1:10103:10103
     networks:
       default:
-    command: /derod --p2p-bind=0.0.0.0:11011 --integrator-address=dero1qynww4vr7jtw25vqs6mhn7cgevffla7gz7pk3fd6uwnksateqwmyxqqmwuqny
+    tty: true
+    command: screen -S dero /derod --p2p-bind=0.0.0.0:11011 --integrator-address=dero1qynww4vr7jtw25vqs6mhn7cgevffla7gz7pk3fd6uwnksateqwmyxqqmwuqny
+  
+  dero-wallet:
+    build:
+      context: .
+      dockerfile: Dockerfile.wallet
+      args:
+        DERO_VERSION: Release78
+    hostname: derod
+    restart: unless-stopped
+    volumes:
+      - ./mainnet:/mainnet
+      - ./wallet.db:/wallet.db
+    ports:
+      - 127.0.0.1:10100:10100
+      - 11011:11011/udp
+      - 127.0.0.1:10102:10102
+      - 127.0.0.1:10103:10103
+    networks:
+      default:
+    tty: true
+    command: screen -S dero /dero-wallet
