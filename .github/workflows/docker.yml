@@ -36,7 +36,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            ${{ secrets.HARBOR_URL }}/stratumfarm/derod
+            ${{ secrets.HARBOR_URL }}/dero/derod
           tags: |
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
             type=semver,pattern={{version}}
@@ -58,7 +58,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            ${{ secrets.HARBOR_URL }}/stratumfarm/dero-wallet
+            ${{ secrets.HARBOR_URL }}/dero/dero-wallet
           tags: |
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
             type=semver,pattern={{version}}
