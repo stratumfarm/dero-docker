@@ -5,7 +5,7 @@ services:
     build:
       context: .
       args:
-        DERO_VERSION: Release78
+        DERO_VERSION: Release91
     hostname: derod
     restart: unless-stopped
     volumes:
@@ -26,7 +26,7 @@ services:
       context: .
       dockerfile: Dockerfile.wallet
       args:
-        DERO_VERSION: Release78
+        DERO_VERSION: Release91
     hostname: derod
     restart: unless-stopped
     volumes:

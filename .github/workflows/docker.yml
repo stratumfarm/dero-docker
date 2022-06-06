@@ -8,7 +8,7 @@ on:
       - "v*.*.*"
 
 env: 
-  DERO_VERSION: Release78
+  DERO_VERSION: Release91
 
 jobs:
   docker:
